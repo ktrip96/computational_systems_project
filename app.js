@@ -1,57 +1,56 @@
 //* Requirements */
 
-const { TEXT } = require('./akn_file')
+const { returnAknContent, returnPdfBody } = require('./functions')
 const axios = require('axios')
 const fs = require('fs')
-console.log({ oldFile: TEXT })
+const PDFExtract = require('pdf.js-extract').PDFExtract
+const pdfExtract = new PDFExtract()
+
+/*
+    Σειρά:
+    - Παίρνουμε το ada σαν input
+    - Κάνουμε ένα get request στο https://diavgeia.gov.gr/luminapi/opendata/decisions/:ada/
+    - Στο πεδίο documentUrl, έχει το link με το οποίο κατεβάζουμε το pdf της νομοθετικής πράξης.
+    - Τρέχουμε την συνάρτηση returnPdfBody, και παίρνουμε το body του pdf.
+    - Tρέχουμε μερικά (ή και μόνο ένα GET Request), μαζεύουμε κάποια meta data πεδία
+    - Γράφουμε στο αρχείο ${ada}.akn το output της συνάρτησης returnAknContent
+
+*/
+
+const options = {
+  normalizeWhitespace: true,
+} /* see below */
+pdfExtract.extract('file.pdf', options, (err, data) => {
+  if (err) return console.log(err)
+  let arr = data.pages[0].content
+  console.log(returnPdfBody(arr))
+})
 
 //* GET REQUESTS */
 
-// assign the AXN template to content
-let content = TEXT
+// axios({
+//   method: 'get',
+//   url: 'https://test3.diavgeia.gov.gr/luminapi/opendata/types',
+//   header: {
+//     Accept: 'application/json',
+//   },
+// })
+//   .then((resp) => {
+//     console.log(resp.data.decisionTypes[0][target])
+//     let result = resp.data.decisionTypes[0][target]
+//     content = replaceBetween(content, firstIndex, finalIndex, result)
+//     console.log({ newFile: content })
 
-// Η μεταβλητή target, έχει το πεδίο του content, που θέλουμε να κάνουμε update.
-let target = 'label'
-let targetLength = target.length
-
-// η replaceBetween, παίρνει το αρχικό string, 2 indexes και ένα δεύτερο string
-// Προσθέτει το δεύτερο string, ανάμεσα στα index του αρχικού.
-// π.χ. replaceBetween("1234567", 1, 3, "yo") = 1yo34567
-// console.log(replaceBetween('1234567', 1, 2, 'yo'))
-
-const replaceBetween = (string, start, end, what) => {
-  return string.slice(0, start) + what + string.slice(end)
-}
-
-// To firstIndex υπολογίζει ποιο είναι το index, των πρώτων εισαγωγικών (το + 2 μπαίνει για το =")
-// και το finalIndex, των δεύτερων εισαγωγικών.
-
-let firstIndex = content.indexOf(target) + targetLength + 2
-let finalIndex = content.indexOf('"', firstIndex)
-
-axios({
-  method: 'get',
-  url: 'https://test3.diavgeia.gov.gr/luminapi/opendata/types',
-  header: {
-    Accept: 'application/json',
-  },
-})
-  .then((resp) => {
-    console.log(resp.data.decisionTypes[0][target])
-    let result = resp.data.decisionTypes[0][target]
-    content = replaceBetween(content, firstIndex, finalIndex, result)
-    console.log({ newFile: content })
-
-    try {
-      const data = fs.writeFileSync(
-        '/home/ktrip96/computational_systems_project/final.akn',
-        content
-      )
-      //file written successfully
-    } catch (err) {
-      console.error(err)
-    }
-  })
-  .catch((error) => {
-    console.log(error)
-  })
+//     try {
+//       const data = fs.writeFileSync(
+//         '/home/ktrip96/computational_systems_project/final.akn',
+//         content
+//       )
+//       //file written successfully
+//     } catch (err) {
+//       console.error(err)
+//     }
+//   })
+//   .catch((error) => {
+//     console.log(error)
+//   })
