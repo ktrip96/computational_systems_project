@@ -32,64 +32,38 @@ const returnAknContent = (typesMaps, data, history, body, signer, organization) 
         <meta>
             <identification source="#HB_bot">
                 <FRBRWork>
-                    <FRBRthis value="/gr/act/${publishDate.getFullYear()}/${
-    data.ada
-  }/"/>
-                    <FRBRuri value="/gr/act/${publishDate.getFullYear()}/${
-    data.ada
-  }/"/>
-                    <FRBRdate date="${getDateString(publishDate)}" name="${
-    data.status
-  }"/>
+                    <FRBRthis value="/gr/act/${publishDate.getFullYear()}/${data.ada}/"/>
+                    <FRBRuri value="/gr/act/${publishDate.getFullYear()}/${data.ada}/"/>
+                    <FRBRdate date="${getDateString(publishDate)}" name="${data.status}"/>
                     <FRBRauthor as="#author" href="#"/>
                     <FRBRcountry value="gr"/>
                 </FRBRWork>
                 <FRBRExpression>
-                    <FRBRthis value="/gr/act/${publishDate.getFullYear()}/${
-    data.ada
-  }/${data.ada}_${getDateString(publishDate)}"/>
-                    <FRBRuri value="/gr/act/${publishDate.getFullYear()}/${
-    data.ada
-  }/${data.ada}_${getDateString(publishDate)}"/>
+                    <FRBRthis value="/gr/act/${publishDate.getFullYear()}/${data.ada}/${data.ada}_${getDateString(publishDate)}"/>
+                    <FRBRuri value="/gr/act/${publishDate.getFullYear()}/${data.ada}/${data.ada}_${getDateString(publishDate)}"/>
                     <FRBRdate date="${getDateString(now)}" name="INSERT"/>
                     <FRBRauthor as="#editor" href="#HB_bot"/>
                     <FRBRlanguage language="gr"/>
                 </FRBRExpression>
                 <FRBRManifestation>
-                    <FRBRthis value="/gr/act/${publishDate.getFullYear()}/${
-    data.ada
-  }/${data.ada}_${getDateString(publishDate)}.xml"/>
-                    <FRBRuri value="/gr/act/${publishDate.getFullYear()}/${
-    data.ada
-  }/${data.ada}_${getDateString(publishDate)}.akn"/>
-                    <FRBRdate date="${getDateString(
-                      now
-                    )}" name="PDFConversion"/>
+                    <FRBRthis value="/gr/act/${publishDate.getFullYear()}/${data.ada}/${data.ada}_${getDateString(publishDate)}.xml"/>
+                    <FRBRuri value="/gr/act/${publishDate.getFullYear()}/${data.ada}/${data.ada}_${getDateString(publishDate)}.akn"/>
+                    <FRBRdate date="${getDateString(now)}" name="PDFConversion"/>
                     <FRBRauthor as="#editor" href="#HB_bot"/>
                 </FRBRManifestation>
             </identification>
-            <publication date="${getDateString(publishDate)}" number="${
-    data.protocolNumber
-  }" name="et" showAs="${organization.label}"/>
+            <publication date="${getDateString(publishDate)}" number="${data.protocolNumber}" name="et" showAs="${organization.label}"/>
             <classification source="#δι@υγεια"/>
             <lifecycle source="#HB_bot">
-                <eventRef type="generation" date="${getDateString(
-                  publishDate
-                )}"/>
+                <eventRef type="generation" date="${getDateString(publishDate)}"/>
             </lifecycle>
             <proprietary source="#HB_bot">
                 <DCTerms xmlns:ns2="http://docs.oasis-open.org/legaldocml/ns/akn/3.0/CSD13" xmlns="" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                    <docIssuerRank>${
-                      signer.units[0].positionLabel
-                    }</docIssuerRank>
+                    <docIssuerRank>${signer.units[0].positionLabel}</docIssuerRank>
                     <dc:description>${data.subject}</dc:description>
                     <dc:language>gr</dc:language>
-                    <dc:creator>${signer.firstName} ${
-    signer.lastName
-  }</dc:creator>
-                    <dcterms:created>${getDateString(
-                      publishDate
-                    )}</dcterms:created>
+                    <dc:creator>${signer.firstName} ${signer.lastName}</dc:creator>
+                    <dcterms:created>${getDateString(publishDate)}</dcterms:created>
                     <dc:format>text/xml</dc:format>
                     <dc:type2>ACT</dc:type2>
                     <dc:type>${typesMaps.get(data.decisionTypeId)}</dc:type>
@@ -97,16 +71,12 @@ const returnAknContent = (typesMaps, data, history, body, signer, organization) 
                     <dc:title>${data.subject}</dc:title>
                     <docProtocol/>
                     <docPol/>
-                    <dc:identifier>/gr/act/${publishDate.getFullYear()}/${
-    data.ada
-  }/${data.ada}_${getDateString(publishDate)}}.akn</dc:identifier>
+                    <dc:identifier>/gr/act/${publishDate.getFullYear()}/${data.ada}/${data.ada}_${getDateString(publishDate)}.akn</dc:identifier>
                     <dc:publisher>${organization.label}</dc:publisher>
                 </DCTerms>
             </proprietary>
         </meta>
-        <body eId="/gr/act/${publishDate.getFullYear()}/${
-    data.ada
-  }/main/" wId="/gr/act/${publishDate.getFullYear()}/${data.ada}/main/">
+        <body eId="/gr/act/${publishDate.getFullYear()}/${data.ada}/main/" wId="/gr/act/${publishDate.getFullYear()}/${data.ada}/main/">
  `;
   akn += body;
   akn += `
@@ -114,7 +84,6 @@ const returnAknContent = (typesMaps, data, history, body, signer, organization) 
 </akomaNtoso>`;
   return akn;
 }
-
 
 // H returnPdfBody επιστρέφει ένα string με το body του pdf.
 const returnPdfBody = (array) => {
