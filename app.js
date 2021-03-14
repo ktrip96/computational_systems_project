@@ -68,14 +68,16 @@ const isDuplicate = (ada, publishDate) => {
 };
 
 //* GET REQUESTS */
+const ada = process.argv[2];
 
+console.log(ada);
 axios.all([
   axios.get('https://diavgeia.gov.gr/luminapi/opendata/types'),
   axios.get(
-    encodeURI('https://diavgeia.gov.gr/luminapi/opendata/decisions/ΩΑ6Ρ465ΧΘΟ-8ΛΡ')
+    encodeURI('https://diavgeia.gov.gr/luminapi/opendata/decisions/' + ada)
   ),
   axios.get(
-    encodeURI('https://diavgeia.gov.gr/luminapi/opendata/decisions/ΩΑ6Ρ465ΧΘΟ-8ΛΡ/versionlog.json')
+    encodeURI('https://diavgeia.gov.gr/luminapi/opendata/decisions/' + ada + '/versionlog.json')
   )
 ])
   .then(resps => {
