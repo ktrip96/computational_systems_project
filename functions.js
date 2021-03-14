@@ -1,3 +1,7 @@
+// Αρχείο βοηθητικών συναρτήσεων
+
+// συνάρτηση που δημιουργεί ενα map με τις αντιστοιχίσεις των
+// typeId με τις περιγραφές τους
 const genTypesMap = decisionTypes => {
   let typesMap = new Map();
   decisionTypes.forEach(element => {
@@ -6,7 +10,7 @@ const genTypesMap = decisionTypes => {
   return typesMap;
 };
 
-
+// Δημιουργεί ένα String της μορφής YYYY-MM-DD για μια δοσμένη date
 const getDateString = (date) => {
   return date.getFullYear() +
     '-' +
@@ -15,6 +19,9 @@ const getDateString = (date) => {
     ('0' + date.getDate()).slice(-2);
 };
 
+// Συνάρτηση για την δημιουργία του κειμένου για το Akoma Ntoso αρχείο.
+// Γίνεται αξιοποίηση όσων περισσότερων metadata μπορούμε να αντλήσουμε από
+// το API της διαύγειας.
 const returnAknContent = (typesMaps, data, history, body, signer, organization) => {
   const publishDate = new Date(data.publishTimestamp);
   const now = new Date();
@@ -110,7 +117,6 @@ const returnAknContent = (typesMaps, data, history, body, signer, organization) 
 
 
 // H returnPdfBody επιστρέφει ένα string με το body του pdf.
-
 const returnPdfBody = (array) => {
   // βάλε στο string όλα τα στοιχεία που έχουν y > 301
   let string = ''
